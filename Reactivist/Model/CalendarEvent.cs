@@ -31,6 +31,8 @@ namespace Reactivist.Model
         [JsonInclude]
         public string[] Attendees;
         [JsonInclude]
+        public int AttendeesCount;
+        [JsonInclude]
         public string Date;
     }
 }

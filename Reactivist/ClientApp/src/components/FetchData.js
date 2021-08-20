@@ -5,7 +5,9 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+      this.state = {
+          forecasts: [], loading: true
+      };
   }
 
   componentDidMount() {
@@ -42,18 +44,23 @@ export class FetchData extends Component {
       ? <p><em>Loading...</em></p>
       : FetchData.renderForecastsTable(this.state.forecasts);
 
+
     return (
       <div>
-        <h1 id="tabelLabel" >Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
-        {contents}
+            <div class="row">
+                <div class="col-9">
+                    <h1 id="tabelLabel" >Weather forecast</h1>
+                    <p>This component demonstrates fetching data from the server.</p>
+                    {contents}
+                </div>
+            </div>
       </div>
     );
-  }
+    }
 
   async populateWeatherData() {
     const response = await fetch('weatherforecast');
     const data = await response.json();
-    this.setState({ forecasts: data, loading: false });
-  }
+      this.setState({ forecasts: data, loading: false });
+    }
 }

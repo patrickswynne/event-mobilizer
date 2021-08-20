@@ -3,7 +3,6 @@ using Reactivist.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,25 +13,41 @@ namespace Reactivist.Controllers
     public class CalendarEventsController : ControllerBase
     {
         Random random = new Random();
-
-        // GET: api/<CalendarEventsController>
-        [HttpGet]
-        public IEnumerable<CalendarEvent> Get()
+        public List<CalendarEvent> getEvents()
         {
             List<CalendarEvent> items = new List<CalendarEvent>
             {
-               new CalendarEvent { Id=1, City="Dallas", Description="Celebrate Labor Day", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
-               new CalendarEvent { Id=2, City="Allen", Description="Walk for Cause", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() }
+               new CalendarEvent { Id=1, City="Dallas", AttendeesCount=3, Description="Celebrate Labor Day", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=2, City="Allen", AttendeesCount=13, Description="Walk for Cause", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=3, City="Sulfur Springs", AttendeesCount=2, Description="A Protest", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=4, City="Dallas", AttendeesCount=20, Description="Swim for fun", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=5, City="Austin", AttendeesCount=20, Description="Night run", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=6, City="Dallas", AttendeesCount=20, Description="birthday party", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=7, City="Houston", AttendeesCount=20, Description="drive along", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=8, City="El Pase", AttendeesCount=20, Description="taco tuesday", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=9, City="Huntsville", AttendeesCount=1, Description="taco Friday", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=10, City="Dallas", AttendeesCount=30, Description="fort night", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() }
             };
             return items;
         }
 
-        // GET api/<CalendarEventsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET: /<CalendarEventsController>
+        [HttpGet] //if city is blank then all
+        public IEnumerable<CalendarEvent> Get()
         {
-            return "value";
+            return getEvents();
         }
+
+        // GET /<CalendarEventsController> get all events in a city
+        [HttpGet("{city}")]
+        public List<CalendarEvent> Get(string city)
+        {
+            IEnumerable<CalendarEvent> eventsList = getEvents();
+            return (List<CalendarEvent>)(from a in eventsList
+                   where a.City.ToLower().Contains(city == "" ? "" : city.ToLower())
+                   select a).ToList();
+        }
+
 
         // POST api/<CalendarEventsController>
         [HttpPost]
