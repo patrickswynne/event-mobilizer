@@ -132,7 +132,7 @@ export class FindEvents extends Component {
 
 
 
-    async populateCalendarEventsData() {
+    async populateCalendarEventsData() { 
         // this is the main events
         let city = "all";
         const response = await fetch('CalendarEvents');
