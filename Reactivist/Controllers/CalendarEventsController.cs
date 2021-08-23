@@ -13,7 +13,7 @@ namespace Reactivist.Controllers
     public class CalendarEventsController : ControllerBase
     {
         Random random = new Random();
-        public List<CalendarEvent> getEvents()
+        public List<CalendarEvent> getEvents() // Dummy data
         {
             List<CalendarEvent> items = new List<CalendarEvent>
             {
@@ -26,19 +26,20 @@ namespace Reactivist.Controllers
                new CalendarEvent { Id=7, City="Houston", AttendeesCount=20, Description="drive along", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
                new CalendarEvent { Id=8, City="El Pase", AttendeesCount=20, Description="taco tuesday", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
                new CalendarEvent { Id=9, City="Huntsville", AttendeesCount=1, Description="taco Friday", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
-               new CalendarEvent { Id=10, City="Dallas", AttendeesCount=30, Description="fort night", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() }
+               new CalendarEvent { Id=10, City="Dallas", AttendeesCount=30, Description="fort night", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() },
+               new CalendarEvent { Id=10, City="San Antonio", AttendeesCount=14, Description="bowling party", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() }
             };
             return items;
         }
 
         // GET: /<CalendarEventsController>
-        [HttpGet] //if city is blank then all
+        [HttpGet] //get all events
         public IEnumerable<CalendarEvent> Get()
         {
             return getEvents();
         }
 
-        // GET /<CalendarEventsController> get all events in a city
+        // GET /<CalendarEventsController>/{city} get all events in a city
         [HttpGet("{city}")]
         public List<CalendarEvent> Get(string city)
         {
