@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Reactivist.Model;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,16 @@ namespace Reactivist.Controllers
     public class CalendarEventsController : ControllerBase
     {
         Random random = new Random();
+        private IConfiguration configuration;
+
+        private string isDebug()
+        {
+#if DEBUG
+            return "Debug";
+#else
+            return "";
+#endif
+        }
         public List<CalendarEvent> getEvents() // Dummy data
         {
             List<CalendarEvent> items = new List<CalendarEvent>
@@ -30,6 +41,11 @@ namespace Reactivist.Controllers
                new CalendarEvent { Id=10, City="San Antonio", AttendeesCount=14, Description="bowling party", Date=DateTime.Now.AddDays(random.Next(1, 60)).Date.ToString() }
             };
             return items;
+        }
+
+        public CalendarEventsController(IConfiguration _configuration)
+        {
+            configuration = _configuration;
         }
 
         // GET: /<CalendarEventsController>
@@ -64,8 +80,9 @@ namespace Reactivist.Controllers
 
         // DELETE api/<CalendarEventsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public string Delete(int id)
         {
+            return configuration[$"{isDebug()}Message"];
         }
     }
 }
